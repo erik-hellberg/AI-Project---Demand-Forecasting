@@ -96,6 +96,6 @@ df["Price"] = np.random.choice(
 )
 
 df.to_csv(
-    r"C:\Users\erik_\Desktop\Demand_Forecasting\dataset\raw\demand_data.csv",
+    "../dataset/raw/demand_data.csv",
     index=False
 )

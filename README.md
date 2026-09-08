@@ -347,6 +347,7 @@ Demand_Forecasting/
 │       └── demand_data.csv
 │
 ├── notebooks/
+│   ├── data_explorationv2.ipnyb
 │   └── demand_forecasting.ipynb
 │
 ├── src/
@@ -354,6 +355,7 @@ Demand_Forecasting/
 │
 ├── outputs/
 │   ├── actual_vs_forecast.png
+│   └── feature_importance.png
 │   └── model_results.csv
 │
 └── README.md

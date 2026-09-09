@@ -179,7 +179,7 @@ The final Random Forest consisted of **300 trees**.
 |---|---:|
 | Naive Forecast | 26.10 |
 | Moving Average (4 weeks) | 22.68 |
-| EMA (4 weeks) | 22.03 |
+| EMA (3 weeks) | 21.80 |
 | Random Forest v1 | 20.83 |
 | Random Forest v2 | 18.98 |
 | **Random Forest v3** | **17.77** |

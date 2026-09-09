@@ -6,7 +6,7 @@ This project develops and evaluates machine learning models for weekly demand fo
 
 The project follows an end-to-end forecasting workflow, including data preprocessing, exploratory analysis, feature engineering, baseline forecasting, machine learning, model evaluation, feature importance analysis and forecast error analysis.
 
-The final Random Forest model achieved a **MAE of 17.77** and a **MAPE of 8.95%**, representing a **31.9% improvement in MAE compared with the naive forecasting baseline**.
+The final Random Forest model achieved a **MAE of 17.77** and a **MAPE of 8.95%**, representing a **31.9% reduction in MAE compared with the naive forecasting baseline**.
 
 ---
 
@@ -14,12 +14,12 @@ The final Random Forest model achieved a **MAE of 17.77** and a **MAPE of 8.95%*
 
 Accurate demand forecasts are important for supply chain planning. Forecasting demand can support decisions related to:
 
-- Inventory planning
-- Capacity planning
-- Procurement
-- Production planning
-- Resource allocation
-- Promotion planning
+* Inventory planning
+* Capacity planning
+* Procurement
+* Production planning
+* Resource allocation
+* Promotion planning
 
 The goal of this project was to build a forecasting model capable of predicting weekly demand while investigating which variables contribute most to forecast accuracy.
 
@@ -33,11 +33,11 @@ For this project, **Product_001** was selected for analysis.
 
 The dataset contains:
 
-- Date
-- Product
-- Demand
-- Price
-- Promotion
+* Date
+* Product
+* Demand
+* Price
+* Promotion
 
 The selected product contains approximately two years of weekly observations.
 
@@ -61,11 +61,11 @@ The project was developed in several stages.
 
 The dataset was:
 
-- Loaded using pandas
-- Converted to a datetime format
-- Sorted chronologically
-- Filtered to Product_001
-- Split into training and test periods
+* Loaded using pandas
+* Converted to a datetime format
+* Sorted chronologically
+* Filtered to Product_001
+* Split into training and test periods
 
 A chronological split was used instead of a random train/test split because demand forecasting is a time-series problem.
 
@@ -85,7 +85,7 @@ A four-week moving average was used to predict future demand.
 
 #### Exponential Moving Average
 
-An exponential moving average with a span of four weeks was used.
+An exponential moving average with a span of three weeks was used. Multiple spans were evaluated to identify the best-performing configuration.
 
 These models provide simple benchmarks against which the machine learning models can be compared.
 
@@ -99,12 +99,12 @@ Several time-series features were created to provide the machine learning model 
 
 Historical demand was incorporated using:
 
-- Lag 1
-- Lag 2
-- Lag 3
-- Lag 4
-- Lag 5
-- Lag 8
+* Lag 1
+* Lag 2
+* Lag 3
+* Lag 4
+* Lag 5
+* Lag 8
 
 These features represent demand from previous weeks.
 
@@ -112,8 +112,8 @@ These features represent demand from previous weeks.
 
 Rolling averages were created using:
 
-- Four-week rolling mean
-- Eight-week rolling mean
+* Four-week rolling mean
+* Eight-week rolling mean
 
 The rolling averages were shifted to ensure that future demand information was not used when predicting the current observation.
 
@@ -131,8 +131,8 @@ A one-week demand change variable was also created:
 
 The model also included:
 
-- Price
-- Promotion
+* Price
+* Promotion
 
 ---
 
@@ -154,18 +154,18 @@ The final model included additional lag variables, an eight-week rolling average
 
 The final model used:
 
-- Lag_1
-- Lag_2
-- Lag_3
-- Lag_4
-- Lag_5
-- Lag_8
-- Rolling_Mean_4
-- Rolling_Mean_8
-- Price
-- Promotion
-- Week
-- Demand_Change_1
+* Lag_1
+* Lag_2
+* Lag_3
+* Lag_4
+* Lag_5
+* Lag_8
+* Rolling_Mean_4
+* Rolling_Mean_8
+* Price
+* Promotion
+* Week
+* Demand_Change_1
 
 The final Random Forest consisted of **300 trees**.
 
@@ -175,35 +175,33 @@ The final Random Forest consisted of **300 trees**.
 
 ## Model Comparison
 
-| Model | Test MAE |
-|---|---:|
-| Naive Forecast | 26.10 |
-| Moving Average (4 weeks) | 22.68 |
-| EMA (3 weeks) | 21.80 |
-| Random Forest v1 | 20.83 |
-| Random Forest v2 | 18.98 |
-| **Random Forest v3** | **17.77** |
+| Model                    |  Test MAE |
+| ------------------------ | --------: |
+| Naive Forecast           |     26.10 |
+| Moving Average (4 weeks) |     22.68 |
+| EMA (span = 3)           |     21.80 |
+| Random Forest v1         |     20.83 |
+| Random Forest v2         |     18.98 |
+| **Random Forest v3**     | **17.77** |
 
 The final Random Forest v3 model achieved the lowest test MAE.
 
-Compared with the naive forecast:
-
-**MAE improvement: 31.9%**
+Compared with the naive forecast, the final model achieved a **31.9% reduction in MAE**.
 
 ---
 
 ## Final Model Performance
 
-| Metric | Result |
-|---|---:|
-| MAE | **17.77** |
-| RMSE | **21.97** |
-| MAPE | **8.95%** |
-| Bias | **+5.41** |
+| Metric                |     Result |
+| --------------------- | ---------: |
+| MAE                   |  **17.77** |
+| RMSE                  |  **21.97** |
+| MAPE                  |  **8.95%** |
+| Bias                  |  **+5.41** |
 | Average Actual Demand | **193.95** |
-| Average Forecast | **188.54** |
+| Average Forecast      | **188.54** |
 
-The model's average forecast was approximately 5.4 units below the average actual demand, indicating a moderate tendency to under-forecast.
+The model's average forecast was approximately 5.4 units below the average actual demand. With bias calculated as Actual − Forecast, the positive bias of **+5.41** indicates a tendency to under-forecast.
 
 ---
 
@@ -211,20 +209,20 @@ The model's average forecast was approximately 5.4 units below the average actua
 
 The Random Forest feature importance analysis showed the following ranking:
 
-| Feature | Importance |
-|---|---:|
-| Promotion | 22.77% |
-| Week | 19.27% |
-| Rolling_Mean_4 | 11.36% |
-| Lag_1 | 8.24% |
-| Lag_8 | 8.22% |
-| Rolling_Mean_8 | 7.03% |
-| Lag_2 | 5.05% |
-| Lag_3 | 4.47% |
-| Lag_5 | 4.45% |
-| Lag_4 | 4.06% |
-| Demand_Change_1 | 3.04% |
-| Price | 2.04% |
+| Feature         | Importance |
+| --------------- | ---------: |
+| Promotion       |     22.77% |
+| Week            |     19.27% |
+| Rolling_Mean_4  |     11.36% |
+| Lag_1           |      8.24% |
+| Lag_8           |      8.22% |
+| Rolling_Mean_8  |      7.03% |
+| Lag_2           |      5.05% |
+| Lag_3           |      4.47% |
+| Lag_5           |      4.45% |
+| Lag_4           |      4.06% |
+| Demand_Change_1 |      3.04% |
+| Price           |      2.04% |
 
 Promotion and Week were the two most important features in the final model.
 
@@ -238,13 +236,13 @@ Forecast errors were analyzed to understand when the model struggled.
 
 The largest errors included:
 
-| Date | Actual | Forecast | Error |
-|---|---:|---:|---:|
-| 2025-11-30 | 235 | 187.57 | +47.43 |
-| 2025-11-23 | 226 | 183.22 | +42.78 |
-| 2025-08-31 | 251 | 214.39 | +36.61 |
-| 2025-12-07 | 221 | 194.82 | +26.18 |
-| 2025-09-28 | 156 | 181.46 | -25.46 |
+| Date       | Actual | Forecast |  Error |
+| ---------- | -----: | -------: | -----: |
+| 2025-11-30 |    235 |   187.57 | +47.43 |
+| 2025-11-23 |    226 |   183.22 | +42.78 |
+| 2025-08-31 |    251 |   214.39 | +36.61 |
+| 2025-12-07 |    221 |   194.82 | +26.18 |
+| 2025-09-28 |    156 |   181.46 | -25.46 |
 
 The analysis indicates that the model generally captures the overall demand level but has more difficulty when demand changes rapidly or deviates substantially from recent historical patterns.
 
@@ -262,19 +260,19 @@ The forecast generally follows the overall demand pattern, while larger differen
 
 ## Business Interpretation
 
-The results indicate that machine learning can improve demand forecasting compared with simple historical forecasting approaches for the product examined.
+The results indicate that machine learning can improve demand forecasting compared with simple historical forecasting approaches **for the product and test period examined**.
 
-The improvement from a MAE of **26.10 to 17.77** means that the average absolute forecasting error was reduced by approximately **32%** compared with the naive benchmark.
+The reduction from a MAE of **26.10 to 17.77** represents a **31.9% reduction in average absolute forecasting error** compared with the naive benchmark.
 
 From a supply chain perspective, a more accurate demand forecast can potentially support better:
 
-- Inventory decisions
-- Procurement planning
-- Production planning
-- Capacity allocation
-- Resource planning
+* Inventory decisions
+* Procurement planning
+* Production planning
+* Capacity allocation
+* Resource planning
 
-However, the positive bias of **5.41 units** indicates that the model tends to underestimate demand slightly. In an operational environment, systematic under-forecasting could increase the risk of insufficient inventory or capacity.
+However, the positive bias of **+5.41 units** indicates that the model tends to underestimate demand slightly. In an operational environment, systematic under-forecasting could increase the risk of insufficient inventory or capacity.
 
 ---
 
@@ -304,17 +302,17 @@ Random Forest is effective at learning relationships within the available data b
 
 Potential future improvements include:
 
-- Testing additional products
-- Increasing the historical dataset
-- Adding more external variables
-- Incorporating holidays and calendar events
-- Creating improved seasonal features
-- Hyperparameter optimization
-- Cross-validation designed specifically for time series
-- Comparing Random Forest with gradient boosting models
-- Testing models such as XGBoost or LightGBM
-- Evaluating the forecast at different planning horizons
-- Translating forecast errors into inventory and financial costs
+* Testing additional products
+* Increasing the historical dataset
+* Adding more external variables
+* Incorporating holidays and calendar events
+* Creating improved seasonal features
+* Hyperparameter optimization
+* Cross-validation designed specifically for time series
+* Comparing Random Forest with gradient boosting models
+* Testing models such as XGBoost or LightGBM
+* Evaluating the forecast at different planning horizons
+* Translating forecast errors into inventory and financial costs
 
 ---
 
@@ -324,16 +322,16 @@ The project was developed using Python.
 
 ### Python Libraries
 
-- **Pandas** – data manipulation and preprocessing
-- **NumPy** – numerical calculations
-- **Matplotlib** – data visualization
-- **Scikit-learn** – machine learning and model evaluation
+* **Pandas** – data manipulation and preprocessing
+* **NumPy** – numerical calculations
+* **Matplotlib** – data visualization
+* **Scikit-learn** – machine learning and model evaluation
 
 ### Machine Learning
 
-- Random Forest Regression
-- Time-series feature engineering
-- Model evaluation using MAE, RMSE and MAPE
+* Random Forest Regression
+* Time-series feature engineering
+* Model evaluation using MAE, RMSE and MAPE
 
 ---
 
@@ -347,7 +345,7 @@ Demand_Forecasting/
 │       └── demand_data.csv
 │
 ├── notebooks/
-│   ├── data_explorationv2.ipnyb
+│   ├── data_explorationv2.ipynb
 │   └── demand_forecasting.ipynb
 │
 ├── src/
@@ -355,7 +353,8 @@ Demand_Forecasting/
 │
 ├── outputs/
 │   ├── actual_vs_forecast.png
-│   └── feature_importance.png
+│   ├── feature_importance.png
 │   └── model_results.csv
 │
 └── README.md
+```
